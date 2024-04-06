@@ -1,2 +1,2 @@
-Ecommerce application built with the MERN stack
-college Project UNI ID 2226117
+E-commerce application built with the MERN stack. \n
+College Project UNI ID 2226117
