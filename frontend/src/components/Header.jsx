@@ -1,3 +1,4 @@
+// import {useState} from 'react';
 import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -28,6 +29,8 @@ const Header = () => {
     } catch (err) {
       console.error(err);
     }
+
+    // const [modal, setmodal] = useState(false);
   };
 
   return (
@@ -48,12 +51,26 @@ const Header = () => {
                 <Nav.Link>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
-                    <Badge pill bg='success' style={{ marginLeft: '5px' }}>
+                    <Badge pill bg='success' style={{ marginLeft: '5px'}}>
                       {cartItems.reduce((a, c) => a + c.qty, 0)}
                     </Badge>
                   )}
                 </Nav.Link>
               </LinkContainer>
+
+{/* presprection upload  */}
+{/* --------------------- */}
+                  <div>
+                    <LinkContainer to='/Prescription'>
+                      <Nav.Link>
+                        <button className='btn' style={{ backgroundColor: "#f8f8ff", color: "#7b8a8b" }} >
+                          Upload Prescription
+                        </button>
+                      </Nav.Link>
+                    </LinkContainer>
+                  </div> 
+{/* to be done */}
+
               {userInfo ? (
                 <>
                   <NavDropdown title={userInfo.name} id='username'>

@@ -16,6 +16,13 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    // prescription: {
+    //     type: String,
+    //     required: true,
+    // },
+    prescriptionPhoto: {
+      type: String // or Buffer if storing binary data directly
+    },
     isAdmin: {
       type: Boolean,
       required: true,

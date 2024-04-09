@@ -21,6 +21,13 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+
+  // -------Upload prescrription----------------------------------
+  // router
+  // .route('/profile/upload-prescription')
+  // .put(protect, uploadPrescriptionPhoto);
+  // -------End------------------------------------------------
+
 router
   .route('/:id')
   .delete(protect, admin, deleteUser)

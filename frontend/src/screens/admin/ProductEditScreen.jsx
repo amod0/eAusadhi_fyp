@@ -17,8 +17,6 @@ const ProductEditScreen = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
 
@@ -45,8 +43,6 @@ const ProductEditScreen = () => {
         name,
         price,
         image,
-        brand,
-        category,
         description,
         countInStock,
       }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
@@ -63,8 +59,6 @@ const ProductEditScreen = () => {
       setName(product.name);
       setPrice(product.price);
       setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
       setCountInStock(product.countInStock);
       setDescription(product.description);
     }
