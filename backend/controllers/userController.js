@@ -162,25 +162,6 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-const uploadPrescriptionPhoto = async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id); // Assuming user ID is stored in req.user._id after authentication
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Handle file upload and update user model with photo URL
-    // For example:
-    user.prescriptionPhoto = req.file.path; // Assuming Multer is used for file upload
-    await user.save();
-
-    res.status(200).json({ message: 'Prescription photo uploaded successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
 export {
   authUser,
   registerUser,
@@ -191,5 +172,4 @@ export {
   deleteUser,
   getUserById,
   updateUser,
-  uploadPrescriptionPhoto,
 };

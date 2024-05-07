@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
-import SearchBox from './SearchBox';
+// import SearchBox from './SearchBox';
 import { resetCart } from '../slices/cartSlice';
 
 const Header = () => {
@@ -46,30 +46,44 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              <SearchBox />
+
+              <LinkContainer to='/aboutus'>
+                <Nav.Link>
+                  About us
+                </Nav.Link>
+              </LinkContainer>
+
+              <LinkContainer to='/blog'>
+                <Nav.Link>
+                  Blog
+                </Nav.Link>
+              </LinkContainer>
+
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
-                    <Badge pill bg='success' style={{ marginLeft: '5px'}}>
+                    <Badge pill bg='success' style={{ marginLeft: '5px' }}>
                       {cartItems.reduce((a, c) => a + c.qty, 0)}
                     </Badge>
                   )}
                 </Nav.Link>
               </LinkContainer>
 
-{/* presprection upload  */}
-{/* --------------------- */}
-                  <div>
-                    <LinkContainer to='/Prescription'>
-                      <Nav.Link>
-                        <button className='btn' style={{ backgroundColor: "#f8f8ff", color: "#7b8a8b" }} >
-                          Upload Prescription
-                        </button>
-                      </Nav.Link>
-                    </LinkContainer>
-                  </div> 
-{/* to be done */}
+
+
+              {/* presprection upload  */}
+              {/* --------------------- */}
+              <div>
+                <LinkContainer to='/prescription'>
+                  <Nav.Link>
+                    <button className='btn btn-primary' >
+                      Upload Prescription
+                    </button>
+                  </Nav.Link>
+                </LinkContainer>
+              </div>
+              {/* to be done */}
 
               {userInfo ? (
                 <>
@@ -102,6 +116,7 @@ const Header = () => {
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
+                  
                 </NavDropdown>
               )}
             </Nav>

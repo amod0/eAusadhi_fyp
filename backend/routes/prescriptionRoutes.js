@@ -1,12 +1,14 @@
 import path from 'path';
 import express from 'express';
 import multer from 'multer';
-
+// import { uploadPrescriptionImage } from '../controllers/prescriptionController';
 const router = express.Router();
+import PrescriptionImage from '../models/prescriptionModel.js';
+import { getPrescription } from '../controllers/prescriptionController.js';
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, 'prescription/');
   },
   filename(req, file, cb) {
     cb(
@@ -33,7 +35,7 @@ function fileFilter(req, file, cb) {
 
 // Configure multer with storage and fileFilter options
 const upload = multer({ storage, fileFilter });
-const uploadSingleImage = upload.single('image');
+const uploadSingleImage = upload.single('image1');
 
 router.post('/', (req, res) => {
   uploadSingleImage(req, res, function (err) {
@@ -42,12 +44,27 @@ router.post('/', (req, res) => {
     }
 
     res.status(200).send({
+      // const savedPrescriptionImage = await uploadPrescriptionImage(req, res);
       message: 'Image uploaded successfully',
       image: `/${req.file.path}`,
     });
   });
 });
 
+
+router.post("/data" , async (req, res) => {
+  const data = req.body;
+    const prescription = new PrescriptionImage({
+      user : data.userId,
+      prescriptionimage : data.prescriptionImage
+
+    })
+    const createdPrescription = await prescription.save();
+    res.status(201).json(createdPrescription);
+
+})
+
+router .get("/" , getPrescription )
 
 
 export default router;

@@ -79,7 +79,12 @@ const ProductScreen = () => {
       ) : (
         <>
           <Meta title={product.name} description={product.description} />
-          <Row>
+          <Row style={{
+    border: '1px solid rgba(0, 0, 0, 0.175)',
+    borderRadius: '12px',
+    padding: '24px',
+    boxShadow: '1px 4px 6px rgba(0, 0, 0, 0.1), 1px 2px 4px rgba(255, 20, 20, 0.06)',
+}}> 
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
             </Col>
@@ -157,7 +162,7 @@ const ProductScreen = () => {
               </Card>
             </Col>
           </Row>
-          <Row className='review'>
+          {/* <Row className='review'>
             <Col md={6}>
               <h2>Reviews</h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
@@ -219,7 +224,7 @@ const ProductScreen = () => {
                 </ListGroup.Item>
               </ListGroup>
             </Col>
-          </Row>
+          </Row> */}
         </>
       )}
     </>

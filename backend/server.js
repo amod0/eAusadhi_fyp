@@ -8,6 +8,8 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import prescriptionRoutes from './routes/prescriptionRoutes.js';
+
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 const port = process.env.PORT || 5000;
@@ -24,6 +26,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/upload1', prescriptionRoutes);
+
 
 app.get('/api/config/khalti', (req, res) =>
   res.send({ clientId: process.env.Khalti_CLIENT_ID })
@@ -32,6 +36,9 @@ app.get('/api/config/khalti', (req, res) =>
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
   app.use('/uploads', express.static('/var/data/uploads'));
+  app.use('/prescription', express.static('/var/data/prescription'));
+
+
   app.use(express.static(path.join(__dirname, '/frontend/build')));
 
   app.get('*', (req, res) =>
@@ -40,6 +47,9 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   const __dirname = path.resolve();
   app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+  app.use('/prescription', express.static(path.join(__dirname, '/prescription')));
+
+
   app.get('/', (req, res) => {
     res.send('API is running....');
   });

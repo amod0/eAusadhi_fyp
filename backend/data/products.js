@@ -59,6 +59,16 @@ const products = [
     rating: 4,
     numReviews: 12,
   },
+  {
+      
+      name: "Digene",
+      image: "/uploads\\image-1712660122500.jpeg",
+      description: "Digene Acidity & Gas Relief Tablet can help provide quick relief from acidity and gas and other gas troubles like bloating and belching. The tablets are formulated with Acidity Neutralising Capacity (ANC) to give quick and effective relief from acidity. It helps minimise the symptoms of acidity such as abdominal pain and stomach discomfort. It works by neutralising stomach acid. These tablets are antacids that contain magnesium hydroxide as one of its active ingredients. It dissolves quickly in the stomach and provides quick action. It interacts with the stomach acid to produce magnesium chloride, which is absorbed by the body. Aluminium hydroxide inhibits the activity of the enzyme pepsin and alleviates heartburn.",
+      rating: 0,
+      numReviews: 0,
+      price: 150,
+      countInStock: 150,
+  },
 ];
 
 export default products;
