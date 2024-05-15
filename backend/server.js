@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import prescriptionRoutes from './routes/prescriptionRoutes.js';
+import cors from 'cors';
 
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
@@ -27,6 +28,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/upload1', prescriptionRoutes);
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true,
+}))
+// app.use('/api/sendpasswordlink')
 
 
 app.get('/api/config/khalti', (req, res) =>

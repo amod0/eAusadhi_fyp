@@ -18,7 +18,7 @@ const PrescriptionScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      console.log("hfdsjfd" , prescriptionImage);
+      // console.log("hfdsjfd" , prescriptionImage);
       await updatePrescription({
         userId,
         prescriptionImage

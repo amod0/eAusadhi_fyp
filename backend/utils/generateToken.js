@@ -4,7 +4,7 @@ const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: '1d',
   });
-
+  
   // Set JWT as an HTTP-Only cookie
   res.cookie('jwt', token, {
     httpOnly: true,
@@ -14,4 +14,8 @@ const generateToken = (res, userId) => {
   });
 };
 
-export default generateToken;
+const generateToken1 = (payload, secret, options) => {
+  return jwt.sign(payload, secret, options);
+};
+
+export { generateToken, generateToken1 };

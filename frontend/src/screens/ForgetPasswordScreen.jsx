@@ -1,42 +1,37 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { useLoginMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useState } from 'react';
+import { useSendpasswordlinkMutation } from '../slices/usersApiSlice';
 import { toast } from 'react-toastify';
 import ForgetStyle from '../assets/styles/forgetStyle';
 
 const ForgetPasswordScreen = () => {
     const [email, setEmail] = useState('');
+    const [message,setMessage] = useState('');
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const [forgetPassword, { isLoading }] = useLoginMutation();
+    const [sendpasswordlink, { isLoading }] = useSendpasswordlinkMutation();
 
-    const { userInfo } = useSelector((state) => state.auth);
+    const setVal = (e) =>{
+        setEmail(e.target.value)
+    };
 
-    const { search } = useLocation();
-    const sp = new URLSearchParams(search);
-    const redirect = sp.get('redirect') || '/';
-
-    useEffect(() => {
-        if (userInfo) {
-            navigate(redirect);
-        }
-    }, [navigate, redirect, userInfo]);
-
-    const submitHandler = async (e) => {
+    const sendLink = async (e) => {
         e.preventDefault();
         try {
-            const res = await forgetPassword({ email }).unwrap();
-            dispatch(setCredentials({ ...res }));
-            navigate(redirect);
+            const res = await sendpasswordlink({ email });
+            // console.log(res,'rse')
+            if (res.data.status === 201){
+                setEmail("");
+                setMessage(true)
+            }else{
+
+            }
+
         } catch (err) {
             toast.error(err?.data?.message || err.error);
         }
     };
+
+  
 
     return (
         <ForgetStyle>
@@ -44,17 +39,18 @@ const ForgetPasswordScreen = () => {
                 <div className="forget-account">
                     <p className='heading'>Forget Password</p>
                     <div className="mb-24">Enter your email to <b>reset</b> your <b>password</b></div>
-                    <form onSubmit={submitHandler}>
+                    {message ? <p style={{color:"green",fontWeight:"bold"}}>Password reset link send succsfully in you email</p>: ""}
+                    <form >
                         <label htmlFor="email">Email:</label>
                         <input
                             type="email"
                             id="email"
                             name="email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange= {setVal}
                             required
                         />
-                       <input type="submit" value="Reset" />
+                       <input disabled={isLoading} type="submit" onClick={sendLink} value="Reset" />
                     </form>
                 </div>
                 <img className="forgetimg" src="./images/login.jpg" alt='sign-in'></img>

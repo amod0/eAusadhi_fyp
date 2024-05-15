@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Row,
   Col,
@@ -11,10 +12,10 @@ import {
   Button,
   Form,
 } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import {
   useGetProductDetailsQuery,
-  useCreateReviewMutation,
+  // useCreateReviewMutation,
 } from '../slices/productsApiSlice';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
@@ -29,8 +30,8 @@ const ProductScreen = () => {
   const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+  // const [rating, setRating] = useState(0);
+  // const [comment, setComment] = useState('');
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
@@ -40,30 +41,30 @@ const ProductScreen = () => {
   const {
     data: product,
     isLoading,
-    refetch,
+    // refetch,
     error,
   } = useGetProductDetailsQuery(productId);
 
-  const { userInfo } = useSelector((state) => state.auth);
+  // const { userInfo } = useSelector((state) => state.auth);
 
-  const [createReview, { isLoading: loadingProductReview }] =
-    useCreateReviewMutation();
+  // const [createReview, { isLoading: loadingProductReview }] =
+  //   useCreateReviewMutation();
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      await createReview({
-        productId,
-        rating,
-        comment,
-      }).unwrap();
-      refetch();
-      toast.success('Review created successfully');
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
+  //   try {
+  //     await createReview({
+  //       productId,
+  //       rating,
+  //       comment,
+  //     }).unwrap();
+  //     refetch();
+  //     toast.success('Review created successfully');
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || err.error);
+  //   }
+  // };
 
   return (
     <>

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { verify } from 'jsonwebtoken';
 
 const userSchema = mongoose.Schema(
   {
@@ -22,6 +23,10 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+
+    verifytoken:{
+      type: String,
+    }
   },
   {
     timestamps: true,

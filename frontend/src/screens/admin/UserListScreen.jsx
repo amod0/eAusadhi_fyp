@@ -104,7 +104,7 @@ import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from '../../slices/usersApiSlice';
-import{
+import {
   useGetPrescriptionQuery
 } from '../../slices/prescriptionSlice';
 import { toast } from 'react-toastify';
@@ -125,8 +125,10 @@ const UserListScreen = () => {
     }
   };
 
-  const { data: prescriptionimage ,isLoading : prescriptionLoading } = useGetPrescriptionQuery();
-  console.log(prescriptionimage, prescriptionLoading)
+  // const verifyHandler = 
+
+  const { data: prescriptionimage } = useGetPrescriptionQuery();
+  // console.log(prescriptionimage, prescriptionLoading)
   // console.log(users[0])
   //   console.log(prescriptionimage[0])
   return (
@@ -166,11 +168,11 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
-                  {prescriptionimage && prescriptionimage.map((data , index) => (
-                   data.user === user._id && <Image src={data.prescriptionimage} key={index} alt='Prescription' fluid />
+                  {prescriptionimage && prescriptionimage.map((data, index) => (
+                    data.user === user._id && <Image src={data.prescriptionimage} key={index} alt='Prescription' fluid />
                   )
                   )}
-                  
+
                 </td>
                 <td>
                   {!user.isAdmin && (
@@ -183,6 +185,14 @@ const UserListScreen = () => {
                           <FaEdit />
                         </Button>
                       </LinkContainer>
+                      {/* <Button
+                        variant='success' // changed variant to 'success' for verified action
+                        className='btn-sm'
+                        onClick={() => verifyHandler(user._id)} // assuming verifyHandler handles verification
+                      > */}
+                        {/* <FaCheck style={{ color: 'white' }} /> changed icon to FaCheck for verified action */}
+                      {/* </Button> */}
+
                       <Button
                         variant='danger'
                         className='btn-sm'
