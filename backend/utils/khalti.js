@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
+const { KHALTI_PUBLIC_KEY, KHALTI_SECRET_KEY, KHALTI_API_URL } = process.env;
 
 /**
  * Fetches an access token from the PayPal API.
@@ -12,11 +12,11 @@ const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET, PAYPAL_API_URL } = process.env;
  */
 async function getPayPalAccessToken() {
   // Authorization header requires base64 encoding
-  const auth = Buffer.from(PAYPAL_CLIENT_ID + ':' + PAYPAL_APP_SECRET).toString(
+  const auth = Buffer.from(KHALTI_PUBLIC_KEY + ':' + KHALTI_SECRET_KEY).toString(
     'base64'
   );
 
-  const url = `${PAYPAL_API_URL}/v1/oauth2/token`;
+  const url = `${KHALTI_API_URL}/v1/oauth2/token`;
 
   const headers = {
     Accept: 'application/json',
@@ -33,9 +33,9 @@ async function getPayPalAccessToken() {
 
   if (!response.ok) throw new Error('Failed to get access token');
 
-  const paypalData = await response.json();
+  const khaltiData = await response.json();
 
-  return paypalData.access_token;
+  return khaltiData.access_token;
 }
 
 /**
@@ -47,11 +47,11 @@ async function getPayPalAccessToken() {
  * @throws {Error} If there's an error in querying the database.
  *
  */
-export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
+export async function checkIfNewTransaction(orderModel, transaction_id) {
   try {
     // Find all documents where Order.paymentResult.id is the same as the id passed paypalTransactionId
     const orders = await orderModel.find({
-      'paymentResult.id': paypalTransactionId,
+      'paymentResult.id': transaction_id,
     });
 
     // If there are no such orders, then it's a new transaction.
@@ -72,20 +72,40 @@ export async function checkIfNewTransaction(orderModel, paypalTransactionId) {
  */
 export async function verifyPayPalPayment(paypalTransactionId) {
   const accessToken = await getPayPalAccessToken();
-  const paypalResponse = await fetch(
-    `${PAYPAL_API_URL}/v2/checkout/orders/${paypalTransactionId}`,
+  const khaltiResponse = await fetch(
+    `https://khalti.com/api/v2/payment/verify/`,{
+      token: token,
+      amount: amount,
+    },
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
       },
     }
   );
-  if (!paypalResponse.ok) throw new Error('Failed to verify payment');
+  if (!khaltiResponse.ok) throw new Error('Failed to verify payment');
 
-  const paypalData = await paypalResponse.json();
+  const khaltiData = await khaltiResponse.json();
   return {
-    verified: paypalData.status === 'COMPLETED',
-    value: paypalData.purchase_units[0].amount.value,
+    verified: khaltiData.status === 'COMPLETED',
+    value: khaltiData.purchase_units[0].amount.value,
   };
 }
+
+// export async function verifyKhaltiPayment (token, amount) {
+//   try {
+//     const response = await axios.post('https://khalti.com/api/v2/payment/verify/', {
+//       token: token,
+//       amount: amount,
+//     }, {
+//       headers: {
+//         Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`
+//       }
+//     });
+//     return { verified: true, value: response.data.amount };
+//   } catch (error) {
+//     console.error('Payment verification failed:', error);
+//     return { verified: false };
+//   }
+// };

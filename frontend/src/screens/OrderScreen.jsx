@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+// import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import KhaltiCheckout from "khalti-checkout-web";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
@@ -9,7 +10,7 @@ import Loader from '../components/Loader';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
-  useGetPaypalClientIdQuery,
+  useGetKhaltiIdQuery,
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
 
@@ -30,33 +31,33 @@ const OrderScreen = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [{ isPending }, PayPalDispatch] = usePayPalScriptReducer();
+  const [{ isPending }, KhaltiDispatch] = KhaltiCheckout();
 
   const {
-    data: paypal,
-    isLoading: loadingPayPal,
-    error: errorPayPal,
-  } = useGetPaypalClientIdQuery();
+    data: khalti,
+    isLoading: loadingKhalti,
+    error: errorKhalti,
+  } = useGetKhaltiIdQuery();
 
   useEffect(() => {
-    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-      const loadPayPalScript = async () => {
-        PayPalDispatch({
+    if (!errorKhalti && !loadingKhalti && khalti.transaction_id) {
+      const KhaltiCheckout = async () => {
+        KhaltiDispatch({
           type: 'resetOptions',
           value: {
-            'client-id': paypal.clientId,
-            currency: 'USD',
+            'transaction_id': khalti.transaction_id,
+            currency: 'RS',
           },
         });
-        PayPalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+        KhaltiDispatch({ type: 'setLoadingStatus', value: 'pending' });
       };
       if (order && !order.isPaid) {
-        if (!window.PayPal) {
-          loadPayPalScript();
+        if (!window.Khalti) {
+          KhaltiCheckout();
         }
       }
     }
-  }, [errorPayPal, loadingPayPal, order, paypal, PayPalDispatch]);
+  }, [errorKhalti, loadingKhalti, order, khalti, KhaltiDispatch]);
 
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
@@ -228,11 +229,11 @@ const OrderScreen = () => {
                       </Button> */}
 
                       <div>
-                        <PayPalButtons
+                        <Button
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}
-                        ></PayPalButtons>
+                        ></Button>
                       </div>
                     </div>
                   )}

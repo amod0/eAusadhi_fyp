@@ -9,8 +9,6 @@ import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import prescriptionRoutes from './routes/prescriptionRoutes.js';
-import cors from 'cors';
-
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 const port = process.env.PORT || 5000;
@@ -28,16 +26,21 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/upload1', prescriptionRoutes);
-app.use(cors({
-  origin:"http://localhost:3000",
-  credentials:true,
-}))
-// app.use('/api/sendpasswordlink')
 
+// app.post("[https://a.khalti.com/api/v2/](https://a.khalti.com/api/v2/)")
 
 app.get('/api/config/khalti', (req, res) =>
   res.send({ clientId: process.env.Khalti_CLIENT_ID })
 );
+app.get('/api/config/khalti', (req, res) => {
+  // Ensure the environment variable for Khalti's client ID is correctly set
+  if (!process.env.KHALTI_CLIENT_ID) {
+    return res.status(500).send({ error: 'Khalti client ID is not configured.' });
+  }
+
+  // Send the Khalti client ID to the frontend
+  res.send({ clientId: process.env.KHALTI_CLIENT_ID });
+});
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();

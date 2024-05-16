@@ -2,7 +2,7 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import { calcPrices } from '../utils/calcPrices.js';
-import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal.js';
+import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/khalti.js';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -83,7 +83,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/:id/pay
 // @access  Private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
-  // NOTE: here we need to verify the payment was made to PayPal before marking
+  // NOTE: here we need to verify the payment was made to Khalti before marking
   // the order as paid
   const { verified, value } = await verifyPayPalPayment(req.body.id);
   if (!verified) throw new Error('Payment not verified');
