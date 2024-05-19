@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 // import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import KhaltiCheckout from "khalti-checkout-web";
+// import KhaltiCheckout from "khalti-checkout-web";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
-  useGetKhaltiIdQuery,
+  // useGetKhaltiIdQuery,
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
 
@@ -30,58 +30,10 @@ const OrderScreen = () => {
     useDeliverOrderMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
-
-  const [{ isPending }, KhaltiDispatch] = KhaltiCheckout();
-
-  const {
-    data: khalti,
-    isLoading: loadingKhalti,
-    error: errorKhalti,
-  } = useGetKhaltiIdQuery();
-
-  useEffect(() => {
-    if (!errorKhalti && !loadingKhalti && khalti.transaction_id) {
-      const KhaltiCheckout = async () => {
-        KhaltiDispatch({
-          type: 'resetOptions',
-          value: {
-            'transaction_id': khalti.transaction_id,
-            currency: 'RS',
-          },
-        });
-        KhaltiDispatch({ type: 'setLoadingStatus', value: 'pending' });
-      };
-      if (order && !order.isPaid) {
-        if (!window.Khalti) {
-          KhaltiCheckout();
-        }
-      }
-    }
-  }, [errorKhalti, loadingKhalti, order, khalti, KhaltiDispatch]);
-
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
-        await payOrder({ orderId, details });
-        refetch();
-        toast.success('Order is paid');
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
-    });
-  }
-
-  // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  // async function onApproveTest() {
-  //   await payOrder({ orderId, details: { payer: {} } });
-  //   refetch();
-
-  //   toast.success('Order is paid');
+  
+  // function onError(err) {
+  //   toast.error(err.message);
   // }
-
-  function onError(err) {
-    toast.error(err.message);
-  }
 
   function createOrder(data, actions) {
     return actions.order
@@ -215,28 +167,6 @@ const OrderScreen = () => {
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
-
-                  {isPending ? (
-                    <Loader />
-                  ) : (
-                    <div>
-                      {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      {/* <Button
-                        style={{ marginBottom: '10px' }}
-                        onClick={onApproveTest}
-                      >
-                        Test Pay Order
-                      </Button> */}
-
-                      <div>
-                        <Button
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></Button>
-                      </div>
-                    </div>
-                  )}
                 </ListGroup.Item>
               )}
 

@@ -27,13 +27,13 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/upload1', prescriptionRoutes);
 
-// app.post("[https://a.khalti.com/api/v2/](https://a.khalti.com/api/v2/)")
+
 
 app.get('/api/config/khalti', (req, res) =>
   res.send({ clientId: process.env.Khalti_CLIENT_ID })
 );
 app.get('/api/config/khalti', (req, res) => {
-  // Ensure the environment variable for Khalti's client ID is correctly set
+
   if (!process.env.KHALTI_CLIENT_ID) {
     return res.status(500).send({ error: 'Khalti client ID is not configured.' });
   }

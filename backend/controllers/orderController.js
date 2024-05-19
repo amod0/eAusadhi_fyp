@@ -8,7 +8,7 @@ import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/khalti.js';
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  const { orderItems, shippingAddress, paymentMethod } = req.body;
+  const { orderItems, shippingAddress, paymentMethod, isPaid } = req.body;
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
@@ -46,6 +46,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
+      isPaid,
+      paidAt: Date.now(),
     });
 
     const createdOrder = await order.save();

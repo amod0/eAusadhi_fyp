@@ -10,33 +10,33 @@ const { KHALTI_PUBLIC_KEY, KHALTI_SECRET_KEY, KHALTI_API_URL } = process.env;
  * @throws {Error} If the request is not successful.
  *
  */
-async function getPayPalAccessToken() {
-  // Authorization header requires base64 encoding
-  const auth = Buffer.from(KHALTI_PUBLIC_KEY + ':' + KHALTI_SECRET_KEY).toString(
-    'base64'
-  );
+// async function getPayPalAccessToken() {
+//   // Authorization header requires base64 encoding
+//   const auth = Buffer.from(KHALTI_PUBLIC_KEY + ':' + KHALTI_SECRET_KEY).toString(
+//     'base64'
+//   );
 
-  const url = `${KHALTI_API_URL}/v1/oauth2/token`;
+//   const url = `${KHALTI_API_URL}/v1/oauth2/token`;
 
-  const headers = {
-    Accept: 'application/json',
-    'Accept-Language': 'en_US',
-    Authorization: `Basic ${auth}`,
-  };
+//   const headers = {
+//     Accept: 'application/json',
+//     'Accept-Language': 'en_US',
+//     Authorization: `Basic ${auth}`,
+//   };
 
-  const body = 'grant_type=client_credentials';
-  const response = await fetch(url, {
-    method: 'POST',
-    headers,
-    body,
-  });
+//   const body = 'grant_type=client_credentials';
+//   const response = await fetch(url, {
+//     method: 'POST',
+//     headers,
+//     body,
+//   });
 
-  if (!response.ok) throw new Error('Failed to get access token');
+//   if (!response.ok) throw new Error('Failed to get access token');
 
-  const khaltiData = await response.json();
+//   const khaltiData = await response.json();
 
-  return khaltiData.access_token;
-}
+//   return khaltiData.access_token;
+// }
 
 /**
  * Checks if a PayPal transaction is new by comparing the transaction ID with existing orders in the database.

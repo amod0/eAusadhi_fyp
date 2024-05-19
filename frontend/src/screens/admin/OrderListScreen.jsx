@@ -7,6 +7,7 @@ import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
+  console.log(window.location,'window.location')
 
   return (
     <>
@@ -39,7 +40,7 @@ const OrderListScreen = () => {
                 <td>${order.totalPrice}</td>
                 <td>
                   {order.isPaid ? (
-                    order.paidAt.substring(0, 10)
+                    order?.paidAt? order?.paidAt?.substring(0, 10):''
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}

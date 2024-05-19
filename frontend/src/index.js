@@ -35,7 +35,6 @@ import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
 import store from './store';
 import { Provider } from 'react-redux';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import PrescriptionScreen from './screens/PrescriptionScreen';
 import AboutScreen from './screens/AboutScreen';
 import BlogScreen from './screens/BlogScreen';
@@ -98,9 +97,7 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
           <RouterProvider router={router} />
-        </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>
   </React.StrictMode>

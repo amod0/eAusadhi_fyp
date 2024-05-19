@@ -10,7 +10,12 @@ import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 import { clearCartItems } from '../slices/cartSlice';
 
 const PlaceOrderScreen = () => {
+  
   const navigate = useNavigate();
+  const urlParams = new URLSearchParams(window.location.search);
+  // Get the value of the 'status' parameter
+
+  const statusParam = urlParams.get('status');
 
   const cart = useSelector((state) => state.cart);
 
@@ -29,12 +34,13 @@ const PlaceOrderScreen = () => {
     try {
       const res = await createOrder({
         orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
+        shippingAddress: cart.shippingAddress,  
         paymentMethod: cart.paymentMethod,
         itemsPrice: cart.itemsPrice,
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
+        isPaid: statusParam==='Completed'?true:false,
       }).unwrap();
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
