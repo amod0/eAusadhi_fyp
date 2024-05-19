@@ -58,7 +58,6 @@ const router = createBrowserRouter(
       <Route path='/register' element={<RegisterScreen />} />
       <Route path='/forgetPassword' element={<ForgetPasswordScreen />} />
       <Route path="/passwordReset/:id/:token" element={<PasswordResetScreen />} />
-      <Route path='/prescription' element={<PrescriptionScreen />} />
       <Route path='/aboutus' element={<AboutScreen />} />
       <Route path='/blog' element={<BlogScreen />} />
       <Route path='/product' element={<ProductOnlyScreen />} />
@@ -74,6 +73,8 @@ const router = createBrowserRouter(
         <Route path='/placeorder' element={<PlaceOrderScreen />} />
         <Route path='/order/:id' element={<OrderScreen />} />
         <Route path='/profile' element={<ProfileScreen />} />
+        <Route path='/prescription' element={<PrescriptionScreen />} />
+
         
       </Route>
       {/* Admin users */}
